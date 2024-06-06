@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+<style>
+  body {
+    background: #440000;
+    color: yellow;
+    margin: 0px;
+  }
+
+  #con {
+    position: relative;
+    text-align: center;
+  }
+
+  input {
+    position: relative;
+    width: 30%;
+    height: 30px;
+    text-align: center;
+    outline: none;
+    border: 1px solid white;
+    background: #440000;
+    color: #4FFF70;
+    border-radius: 5px;
+  }
+
+  button {
+    position: relative;
+    width: 30%;
+    height: 40px;
+    border-radius: 10px;
+    background: #4FFF70;
+    border: hidden;
+  }
+
+  select {
+    position: relative;
+    width: 15%;
+    height: 33px;
+    text-align: center;
+    border: 1px solid white;
+    outline: none;
+    color: #4FFF70;
+    background: #440000;
+    border-radius: 5px;
+  }
+
+  p {
+    font-size: 10px;
+  }
+
+  img {
+    position: relative;
+    width: 100%;
+  }
+
+  #opt1 {
+    position: relative;
+    width: 50%;
+    height: 40px;
+    text-align: center;
+    border: 1px solid white;
+    outline: none;
+    color: #4FFF70;
+    background: #440000;
+    border-radius: 5px;
+  }
+
+  #opt2 {
+    position: relative;
+    width: 50%;
+    height: 40px;
+    text-align: center;
+    border: 1px solid white;
+    outline: none;
+    color: #4FFF70;
+    background: #440000;
+    border-radius: 5px;
+  }
+  #opt3 {
+    position: relative;
+    width: 50%;
+    height: 40px;
+    text-align: center;
+    border: 1px solid white;
+    outline: none;
+    color: #4FFF70;
+    background: #440000;
+    border-radius: 5px;
+  }
+  #opt4 {
+    position: relative;
+    width: 50%;
+    height: 40px;
+    text-align: center;
+    border: 1px solid white;
+    outline: none;
+    color: #4FFF70;
+    background: #440000;
+    border-radius: 5px;
+  }
+
+  #text {
+    font-size: 20px;
+  }
+  
+  .loading-spinner {
+    display: none;
+    border: 4px solid  #4FFF70 ;
+    border-left-color: #440000;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index :1 ;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  table{
+    position :relative ;
+    width :100%;
+    border :1px solid orange ;
+    color:#4FFF70; 
+  }
+  #table{
+    position :relative ;
+    font-size :20px ;
+    background: orange;
+    color:white ;
+  }
+  #print{
+    font-size :15px ;
+  }
+</style>
+
+<body>
+
+  <form id="con" method="post" action="" name="contact-form">
+
+    <h2>FIRST MAKE YOUR BIRTH CHART</h2>
+    <input type="text" id="name" placeholder="Name" name="NAME">
+    <p>BIRTH PLACE</p>
+    <input type="text" id="district" placeholder="District" name="DISTRICT">
+    <input type="text" id="state" placeholder="State" name="STATE" >
+    <p>BIRTH TIME</p>
+    <input type="text" id="hour" placeholder="Hour" name="HOUR" >
+    <input type="text" id="minute" placeholder="Minute" name="MINUTE" >
+    <select name="DURATION" id="duration">
+      <option value="am">AM</option>
+      <option value="pm">PM</option>
+    </select>
+    <p>BIRTH DAY</p>
+    <input type="text" id="day" placeholder="DD" name="DAY" >
+    <input type="text" id="month" placeholder="MM" name="MONTH" >
+    <input type="text" id="year" placeholder="YYYY" name="YEAR" ><br><br>
+    <button onclick="birthChart()" value="submit">CREATE</button>
+
+  </form><br>
+  
+  <img src="" alt="" id="image">
+  
+  <div id="con">
+    <p id="text"></p>
+    <h3>SELECT PLANET/HOUSE OF BIRTH CHART</h3>
+    <select id="opt2">
+      <option>Select Planet</option>
+      <option value="sun">sun</option>
+      <option value="moon">moon</option>
+      <option value="mercury">mercury</option>
+      <option value="venus">venus</option>
+      <option value="mars">mars</option>
+      <option value="jupiter">jupiter</option>
+      <option value="saturn">saturn</option>
+      <option value="rahu">rahu</option>
+      <option value="ketu">ketu</option>
+    </select>
+    <br><br>
+    <select id="opt1">
+      <option>Select house</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+    </select>
+    <br><br>
+    <button onclick="touchmenow()">CLICK</button>
+    <br><br>
+  </div>
+  
+<div id="con">
+    <div id="loadingSpinner" class="loading-spinner"></div>
+    <table id="table">
+      <th rowspan="3">
+        <h4>Sun Mahadasha</h4>
+      </th>
+      <tr>
+        <td id="sunmstart">Start</td>
+        <td id="sunmend">End</td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <th>Sun Antardasha</th>
+         <td id="sunstart1">Start</td>
+         <td id="sunend1">End</td>
+       </tr> 
+       <tr>
+        <th>Moon Antardasha</th>
+        <td id="moonstart1">Start</td>
+        <td id="moonend1">End</td>
+      </tr>
+      <tr>
+        <th>Mars Antardasha</th>
+        <td id="marsstart1">Start</td>
+        <td id="marsend1">End</td>
+      </tr>
+      <tr>
+        <th>Rahu Antardasha</th>
+        <td id="rahustart1">Start</td>
+        <td id="rahuend1">End</td>
+      </tr>
+      <tr>
+        <th>Jupiter Antardasha</th>
+        <td id="jupiterstart1">Start</td>
+        <td id="jupiterend1">End</td>
+      </tr>
+      <tr>
+        <th>Saturn Antardasha</th>
+        <td id="saturnstart1">Start</td>
+        <td id="saturnend1">End</td>
+      </tr>
+      <tr>
+        <th>Mercury Antardasha</th>
+        <td id="mercurystart1">Start</td>
+        <td id="mercuryend1">End</td>
+      </tr>
+      <tr>
+        <th>Ketu Antardasha</th>
+        <td id="ketustart1">Start</td>
+        <td id="ketuend1">End</td>
+      </tr>
+      <tr>
+        <th>Venus Antardasha</th>
+        <td id="venusstart1">Start</td>
+        <td id="venusend1">End</td>
+      </tr>
+    </table>
+    
+    <table id="table">
+      <th rowspan="3">
+        <h4>Moon Mahadasha</h4>
+      </th>
+      <tr>
+        <td id="moonmstart">Start</td>
+        <td id="moonmend">End</td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <th>Moon Antardasha</th>
+        <td id="moonstart5">Start</td>
+        <td id="moonend5">End</td>
+      </tr>
+      <tr>
+        <th>Mars Antardasha</th>
+        <td id="marsstart5">Start</td>
+        <td id="marsend5">End</td>
+      </tr>
+      <tr>
+        <th>Rahu Antardasha</th>
+        <td id="rahustart5">Start</td>
+        <td id="rahuend5">End</td>
+      </tr>
+      <tr>
+        <th>Jupiter Antardasha</th>
+        <td id="jupiterstart5">Start</td>
+        <td id="jupiterend5">End</td>
+      </tr>
+      <tr>
+        <th>Saturn Antardasha</th>
+        <td id="saturnstart5">Start</td>
+        <td id="saturnend5">End</td>
+      </tr>
+      <tr>
+        <th>Mercury Antardasha</th>
+        <td id="mercurystart5">Start</td>
+        <td id="mercuryend5">End</td>
+      </tr>
+      <tr>
+        <th>Ketu Antardasha</th>
+        <td id="ketustart5">Start</td>
+        <td id="ketuend5">End</td>
+      </tr>
+      <tr>
+        <th>Venus Antardasha</th>
+        <td id="venusstart5">Start</td>
+        <td id="venusend5">End</td>
+      </tr>
+      <tr>
+        <th>Sun Antardasha</th>
+        <td id="sunstart5">Start</td>
+        <td id="sunend5">End</td>
+      </tr> 
+    </table>
+    
+    <table id="table">
+      <th rowspan="3">
+        <h4>Mars Mahadasha</h4>
+      </th>
+      <tr>
+        <td id="marsmstart">Start</td>
+        <td id="marsmend">End</td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <tr>
+        <th>Mars Antardasha</th>
+        <td id="marsstart8">Start</td>
+        <td id="marsend8">End</td>
+      </tr>
+      <tr>
+        <th>Rahu Antardasha</th>
+        <td id="rahustart8">Start</td>
+        <td id="rahuend8">End</td>
+      </tr>
+      <tr>
+        <th>Jupiter Antardasha</th>
+        <td id="jupiterstart8">Start</td>
+        <td id="jupiterend8">End</td>
+      </tr>
+      <tr>
+        <th>Saturn Antardasha</th>
+        <td id="saturnstart8">Start</td>
+        <td id="saturnend8">End</td>
+      </tr>
+      <tr>
+        <th>Mercury Antardasha</th>
+        <td id="mercurystart8">Start</td>
+        <td id="mercuryend8">End</td>
+      </tr>
+      <tr>
+        <th>Ketu Antardasha</th>
+        <td id="ketustart8">Start</td>
+        <td id="ketuend8">End</td>
+      </tr>
+      <tr>
+        <th>Venus Antardasha</th>
+        <td id="venusstart8">Start</td>
+        <td id="venusend8">End</td>
+      </tr> 
+        <th>Sun Antardasha</th>
+        <td id="sunstart8">Start</td>
+        <td id="sunend8">End</td>
+      </tr>
+      <tr>
+        <th>Moon Antardasha</th>
+        <td id="moonstart8">Start</td>
+        <td id="moonend8">End</td>
+      </tr>
+    </table>
+    
+    <table id="table">
+      <th rowspan="3">
+        <h4>Rahu Mahadasha</h4>
+      </th>
+      <tr>
+        <td id="rahumstart">Start</td>
+        <td id="rahumend">End</td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <th>Rahu Antardasha</th>
+        <td id="rahustart4">Start</td>
+        <td id="rahuend4">End</td>
+      </tr>
+      <tr>
+        <th>Jupiter Antardasha</th>
+        <td id="jupiterstart4">Start</td>
+        <td id="jupiterend4">End</td>
+      </tr>
+      <tr>
+        <th>Saturn Antardasha</th>
+        <td id="saturnstart4">Start</td>
+        <td id="saturnend4">End</td>
+      </tr>
+      <tr>
+        <th>Mercury Antardasha</th>
+        <td id="mercurystart4">Start</td>
+        <td id="mercuryend4">End</td>
+      </tr>
+      <tr>
+        <th>Ketu Antardasha</th>
+        <td id="ketustart4">Start</td>
+        <td id="ketuend4">End</td>
+      </tr>
+      <tr>
+        <th>Venus Antardasha</th>
+        <td id="venusstart4">Start</td>
+        <td id="venusend4">End</td>
+      </tr> 
+      <tr>
+        <th>Sun Antardasha</th>
+        <td id="sunstart4">Start</td>
+        <td id="sunend4">End</td>
+      </tr>
+      <tr>
+        <th>Moon Antardasha</th>
+        <td id="moonstart4">Start</td>
+        <td id="moonend4">End</td>
+      </tr>
+      <tr>
+        <th>Mars Antardasha</th>
+        <td id="marsstart4">Start</td>
+        <td id="marsend4">End</td>
+      </tr>
+    </table>
+    
+    <table id="table">
+      <th rowspan="3">
+        <h4>Jupiter Mahadasha</h4>
+      </th>
+      <tr>
+        <td id="jupitermstart">Start</td>
+        <td id="jupitermend">End</td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <th>Jupiter Antardasha</th>
+        <td id="jupiterstart9">Start</td>
+        <td id="jupiterend9">End</td>
+      </tr>
+      <tr>
+        <th>Saturn Antardasha</th>
+        <td id="saturnstart9">Start</td>
+        <td id="saturnend9">End</td>
+      </tr>
+      <tr>
+        <th>Mercury Antardasha</th>
+        <td id="mercurystart9">Start</td>
+        <td id="mercuryend9">End</td>
+      </tr>
+      <tr>
+        <th>Ketu Antardasha</th>
+        <td id="ketustart9">Start</td>
+        <td id="ketuend9">End</td>
+      </tr>
+      <tr>
+        <th>Venus Antardasha</th>
+        <td id="venusstart9">Start</td>
+        <td id="venusend9">End</td>
+      </tr> 
+      <tr>
+        <th>Sun Antardasha</th>
+        <td id="sunstart9">Start</td>
+        <td id="sunend9">End</td>
+      </tr>
+      <tr>
+        <th>Moon Antardasha</th>
+        <td id="moonstart9">Start</td>
+        <td id="moonend9">End</td>
+      </tr>
+      <tr>
+        <th>Mars Antardasha</th>
+        <td id="marsstart9">Start</td>
+        <td id="marsend9">End</td>
+      </tr>
+      <tr>
+        <th>Rahu Antardasha</th>
+        <td id="rahustart9">Start</td>
+        <td id="rahuend9">End</td>
+      </tr>
+    </table>
+    
+    <table id="table">
+      <th rowspan="3">
+        <h4>Saturn Mahadasha</h4>
+      </th>
+      <tr>
+        <td id="saturnmstart">Start</td>
+        <td id="saturnmend">End</td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <tr>
+        <th>Saturn Antardasha</th>
+        <td id="saturnstart3">Start</td>
+        <td id="saturnend3">End</td>
+      </tr> 
+      <tr>
+        <th>Mercury Antardasha</th>
+        <td id="mercurystart3">Start</td>
+        <td id="mercuryend3">End</td>
+      </tr>
+      <tr>
+        <th>Ketu Antardasha</th>
+        <td id="ketustart3">Start</td>
+        <td id="ketuend3">End</td>
+      </tr>
+      <tr>
+        <th>Venus Antardasha</th>
+        <td id="venusstart3">Start</td>
+        <td id="venusend3">End</td>
+      </tr> 
+        <th>Sun Antardasha</th>
+        <td id="sunstart3">Start</td>
+        <td id="sunend3">End</td>
+      </tr>
+      <tr>
+        <th>Moon Antardasha</th>
+        <td id="moonstart3">Start</td>
+        <td id="moonend3">End</td>
+      </tr>
+      <tr>
+        <th>Mars Antardasha</th>
+        <td id="marsstart3">Start</td>
+        <td id="marsend3">End</td>
+      </tr>
+      <tr>
+        <th>Rahu Antardasha</th>
+        <td id="rahustart3">Start</td>
+        <td id="rahuend3">End</td>
+      </tr>
+      <tr>
+        <th>Jupiter Antardasha</th>
+        <td id="jupiterstart3">Start</td>
+        <td id="jupiterend3">End</td>
+      </tr>
+    </table>
+    
+    <table id="table">
+      <th rowspan="3">
+        <h4>Mercury Mahadasha</h4>
+      </th>
+      <tr>
+        <td id="mercurymstart">Start</td>
+        <td id="mercurymend">End</td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <th>Mercury Antardasha</th>
+        <td id="mercurystart6">Start</td>
+        <td id="mercuryend6">End</td>
+      </tr>
+      <tr>
+        <th>Ketu Antardasha</th>
+        <td id="ketustart6">Start</td>
+        <td id="ketuend6">End</td>
+      </tr>
+      <tr>
+        <th>Venus Antardasha</th>
+        <td id="venusstart6">Start</td>
+        <td id="venusend6">End</td>
+      </tr>
+      <tr>
+        <th>Sun Antardasha</th>
+        <td id="sunstart6">Start</td>
+        <td id="sunend6">End</td>
+      </tr>
+      <tr>
+        <th>Moon Antardasha</th>
+        <td id="moonstart6">Start</td>
+        <td id="moonend6">End</td>
+      </tr>
+      <tr>
+        <th>Mars Antardasha</th>
+        <td id="marsstart6">Start</td>
+        <td id="marsend6">End</td>
+      </tr>
+      <tr>
+        <th>Rahu Antardasha</th>
+        <td id="rahustart6">Start</td>
+        <td id="rahuend6">End</td>
+      </tr>
+      <tr>
+        <th>Jupiter Antardasha</th>
+        <td id="jupiterstart6">Start</td>
+        <td id="jupiterend6">End</td>
+      </tr>
+      <tr>
+        <th>Saturn Antardasha</th>
+        <td id="saturnstart6">Start</td>
+        <td id="saturnend6">End</td>
+      </tr>
+    </table>
+    
+    <table id="table">
+      <th rowspan="3">
+        <h4>Ketu Mahadasha</h4>
+      </th>
+      <tr>
+        <td id="ketumstart">Start</td>
+        <td id="ketumend">End</td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <th>Ketu Antardasha</th>
+        <td id="ketustart7">Start</td>
+        <td id="ketuend7">End</td>
+      </tr> 
+      <tr>
+        <th>Venus Antardasha</th>
+        <td id="venusstart7">Start</td>
+        <td id="venusend7">End</td>
+      </tr> 
+      <tr>
+        <th>Sun Antardasha</th>
+        <td id="sunstart7">Start</td>
+        <td id="sunend7">End</td>
+      </tr>
+      <tr>
+        <th>Moon Antardasha</th>
+        <td id="moonstart7">Start</td>
+        <td id="moonend7">End</td>
+      </tr>
+      <tr>
+        <th>Mars Antardasha</th>
+        <td id="marsstart7">Start</td>
+        <td id="marsend7">End</td>
+      </tr>
+      <tr>
+        <th>Rahu Antardasha</th>
+        <td id="rahustart7">Start</td>
+        <td id="rahuend7">End</td>
+      </tr>
+      <tr>
+        <th>Jupiter Antardasha</th>
+        <td id="jupiterstart7">Start</td>
+        <td id="jupiterend7">End</td>
+      </tr>
+      <tr>
+        <th>Saturn Antardasha</th>
+        <td id="saturnstart7">Start</td>
+        <td id="saturnend7">End</td>
+      </tr>
+      <tr>
+        <th>Mercury Antardasha</th>
+        <td id="mercurystart7">Start</td>
+        <td id="mercuryend7">End</td>
+      </tr>
+    </table>
+    
+    <table id="table">
+      <th rowspan="3">
+        <h4>Venus Mahadasha</h4>
+      </th>
+      <tr>
+        <td id="venusmstart">Start</td>
+        <td id="venusmend">End</td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <th>Venus Antardasha</th>
+        <td id="venusstart2">Start</td>
+        <td id="venusend2">End</td>
+      </tr>
+      <tr>
+        <th>Sun Antardasha</th>
+        <td id="sunstart2">Start</td>
+        <td id="sunend2">End</td>
+      </tr>
+      <tr>
+        <th>Moon Antardasha</th>
+        <td id="moonstart2">Start</td>
+        <td id="moonend2">End</td>
+      </tr>
+      <tr>
+        <th>Mars Antardasha</th>
+        <td id="marsstart2">Start</td>
+        <td id="marsend2">End</td>
+      </tr>
+      <tr>
+        <th>Rahu Antardasha</th>
+        <td id="rahustart2">Start</td>
+        <td id="rahuend2">End</td>
+      </tr>
+      <tr>
+        <th>Jupiter Antardasha</th>
+        <td id="jupiterstart2">Start</td>
+        <td id="jupiterend2">End</td>
+      </tr>
+      <tr>
+        <th>Saturn Antardasha</th>
+        <td id="saturnstart2">Start</td>
+        <td id="saturnend2">End</td>
+      </tr>
+      <tr>
+        <th>Mercury Antardasha</th>
+        <td id="mercurystart2">Start</td>
+        <td id="mercuryend2">End</td>
+      </tr>
+      <tr>
+        <th>Ketu Antardasha</th>
+        <td id="ketustart2">Start</td>
+        <td id="ketuend2">End</td>
+      </tr>
+    </table> 
+    <br>
+    <p id="print"></p>
+    <br>
+    <select id="opt3">
+      <option>SELECT MAHADASHA</option>
+      <option value="sunMahadasha">Sun Mahadasha</option>
+      <option value="venusMahadasha">Venus Mahadasha</option>
+      <option value="saturnMahadasha">Saturn Mahadasha</option>
+      <option value="rahuMahadasha">Rahu Mahadasha</option>
+      <option value="moonMahadasha">Moon Mahadasha</option>
+      <option value="mercuryMahadasha">Mercury Mahadasha</option>
+      <option value="ketuMahadasha">Ketu Mahadasha</option>
+      <option value="marsMahadasha">Mars Mahadasha</option>
+      <option value="jupiterMahadasha">Jupiter Mahadasha</option>
+    </select>
+    <br><br>
+    <select id="opt4">
+      <option value="">SELECT ANTARDASHA</option>
+      <option value="sunAntardasha">Sun Antardasha</option>
+      <option value="venusAntardasha">Venus Antardasha</option>
+      <option value="saturnAntardasha">Saturn Antardasha</option>
+      <option value="rahuAntardasha">Rahu Antardasha</option>
+      <option value="moonAntardasha">Moon Antardasha</option>
+      <option value="mercuryAntardasha">Mercury Antardasha</option>
+      <option value="ketuAntardasha">Ketu Antardasha</option>
+      <option value="marsAntardasha">Mars Antardasha</option>
+      <option value="jupiterAntardasha">Jupiter Antardasha</option>
+  
+    </select><br><br>
+    <button onclick="dashaChecker()">CLICK</button>
+</div><br>
+  <script src="script.js"></script>
+
+</body>
+
+      </html>
